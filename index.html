@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WatchTogether 💕 | Couple Sync Player</title>
+    <meta name="description"
+        content="Watch YouTube videos together with your partner in perfect sync. Real-time chat and synchronized playback.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <!-- Auth Screen -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-container">
+            <div class="logo">
+                <span class="logo-icon">💕</span>
+                <h1>WatchTogether</h1>
+                <p class="tagline">Watch anime with your special someone</p>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-welcome">
+                    <h2>Welcome!</h2>
+                    <p>Sign in to start watching together</p>
+                </div>
+
+                <button class="btn btn-google" id="googleSignInBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#4285F4"
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853"
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05"
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335"
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                    <span>Sign in with Google</span>
+                    <span class="btn-glow"></span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+
+                <button class="btn btn-guest" id="guestSignInBtn">
+                    <span>👤</span>
+                    <span>Continue as Guest</span>
+                    <span class="btn-glow"></span>
+                </button>
+
+                <p class="auth-note">Sign in with Google to save your watch history</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Landing Screen (Room Selection) -->
+    <div class="landing-screen hidden" id="landingScreen">
+        <div class="landing-container">
+            <!-- User Profile Header -->
+            <div class="user-profile-bar">
+                <div class="profile-info">
+                    <img id="userAvatar" src="" alt="Avatar" class="profile-avatar">
+                    <span id="userName">User</span>
+                </div>
+                <button class="btn-icon" id="signOutBtn" title="Sign Out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="logo">
+                <span class="logo-icon">💕</span>
+                <h1>WatchTogether</h1>
+                <p class="tagline">Watch anime with your special someone</p>
+            </div>
+
+            <div class="room-actions">
+                <!-- Create Room -->
+                <div class="action-card" id="createRoomCard">
+                    <div class="card-icon">🎬</div>
+                    <h2>Create Room</h2>
+                    <p>Start a new watching session</p>
+                    <button class="btn btn-primary" id="createRoomBtn">
+                        <span>Create Room</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Join Room -->
+                <div class="action-card" id="joinRoomCard">
+                    <div class="card-icon">🔗</div>
+                    <h2>Join Room</h2>
+                    <p>Enter your partner's room code</p>
+                    <div class="input-group">
+                        <input type="text" id="roomCode" placeholder="Room code" maxlength="10">
+                    </div>
+                    <button class="btn btn-secondary" id="joinRoomBtn">
+                        <span>Join Room</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Screen -->
+    <div class="app-screen hidden" id="appScreen">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <span class="logo-small">💕</span>
+                <span class="app-title">WatchTogether</span>
+            </div>
+            <div class="header-center">
+                <div class="room-info">
+                    <span class="room-label">Room:</span>
+                    <span class="room-code" id="displayRoomCode">ABC123</span>
+                    <button class="copy-btn" id="copyRoomBtn" title="Copy room code">📋</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="users-online">
+                    <div class="user-avatar-small" id="user1Avatar">
+                        <img id="user1Img" src="" alt="">
+                        <span id="user1Initial">?</span>
+                        <span class="online-dot"></span>
+                    </div>
+                    <span class="heart-between">❤️</span>
+                    <div class="user-avatar-small" id="user2Avatar">
+                        <img id="user2Img" src="" alt="">
+                        <span id="user2Initial">?</span>
+                        <span class="online-dot offline"></span>
+                    </div>
+                </div>
+                <button class="btn-icon btn-leave" id="leaveRoomBtn" title="Leave Room">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Video Section -->
+            <div class="video-section">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search anime videos...">
+                        <button class="search-btn" id="searchBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div class="search-results hidden" id="searchResults">
+                    <div class="results-header">
+                        <h3>Search Results</h3>
+                        <button class="close-results" id="closeResults">✕</button>
+                    </div>
+                    <div class="results-grid" id="resultsGrid"></div>
+                </div>
+
+                <!-- Video Player -->
+                <div class="video-player-container">
+                    <div class="video-wrapper">
+                        <div id="youtubePlayer"></div>
+                        <div class="video-overlay" id="videoOverlay">
+                            <div class="overlay-content">
+                                <span class="play-icon">▶</span>
+                                <p>Search and select a video to start watching together!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sync Controls -->
+                    <div class="sync-controls">
+                        <div class="control-left">
+                            <button class="control-btn" id="playPauseBtn" title="Play/Pause">
+                                <span class="play-icon">▶</span>
+                            </button>
+                            <div class="volume-control">
+                                <button class="control-btn" id="muteBtn" title="Mute">🔊</button>
+                                <input type="range" id="volumeSlider" min="0" max="100" value="100">
+                            </div>
+                        </div>
+                        <div class="control-center">
+                            <div class="progress-container">
+                                <span class="time-current" id="currentTime">0:00</span>
+                                <input type="range" id="progressBar" min="0" max="100" value="0">
+                                <span class="time-total" id="totalTime">0:00</span>
+                            </div>
+                        </div>
+                        <div class="control-right">
+                            <div class="sync-status" id="syncStatus">
+                                <span class="sync-dot synced"></span>
+                                <span>Synced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Now Playing -->
+                <div class="now-playing" id="nowPlaying">
+                    <div class="now-playing-info">
+                        <span class="np-label">Now Playing:</span>
+                        <span class="np-title" id="nowPlayingTitle">No video selected</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <aside class="chat-section">
+                <div class="chat-header">
+                    <h3>💬 Chat</h3>
+                    <span class="chat-status" id="chatStatus">Connected</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="system-message">
+                        <span>Welcome! Start chatting with your partner 💕</span>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type a message..." maxlength="500">
+                    <button class="send-btn" id="sendBtn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, onDisconnect, get, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDUh7LtvUznCE8STn8YPRlSrbPuKIz2ZtE",
+            authDomain: "anime-a4c3f.firebaseapp.com",
+            projectId: "anime-a4c3f",
+            storageBucket: "anime-a4c3f.firebasestorage.app",
+            messagingSenderId: "1065538635432",
+            appId: "1:1065538635432:web:dab3c183447bef9481649d"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // YouTube API Key
+        const YOUTUBE_API_KEY = "AIzaSyBp6KnxeONqynFO6GAzsNwzIl09bDOViq8";
+
+        // Make available globally
+        window.firebaseDB = database;
+        window.firebaseAuth = auth;
+        window.firebaseGoogleProvider = googleProvider;
+        window.firebaseRef = ref;
+        window.firebaseSet = set;
+        window.firebasePush = push;
+        window.firebaseOnValue = onValue;
+        window.firebaseOnDisconnect = onDisconnect;
+        window.firebaseGet = get;
+        window.firebaseUpdate = update;
+        window.firebaseRemove = remove;
+        window.firebaseSignInWithPopup = signInWithPopup;
+        window.firebaseSignInAnonymously = signInAnonymously;
+        window.firebaseOnAuthStateChanged = onAuthStateChanged;
+        window.firebaseSignOut = signOut;
+        window.YOUTUBE_API_KEY = YOUTUBE_API_KEY;
+
+        // Load main app script after Firebase is ready
+        const script = document.createElement('script');
+        script.src = 'app.js';
+        document.body.appendChild(script);
+    </script>
+</body>
+
+</html>

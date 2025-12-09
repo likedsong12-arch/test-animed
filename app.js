@@ -68,21 +68,44 @@ function initAuthListeners() {
         }
     });
 
-    // Auth tab switching
-    document.getElementById('signInTab').addEventListener('click', () => switchAuthTab('signin'));
-    document.getElementById('signUpTab').addEventListener('click', () => switchAuthTab('signup'));
+    // Auth tab switching - use direct event handlers
+    const signInTab = document.getElementById('signInTab');
+    const signUpTab = document.getElementById('signUpTab');
+
+    if (signInTab && signUpTab) {
+        signInTab.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchAuthTab('signin');
+        });
+        signUpTab.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchAuthTab('signup');
+        });
+    }
 
     // Sign In Form
-    document.getElementById('signInForm').addEventListener('submit', handleSignIn);
+    const signInForm = document.getElementById('signInForm');
+    if (signInForm) {
+        signInForm.addEventListener('submit', handleSignIn);
+    }
 
     // Sign Up Form
-    document.getElementById('signUpForm').addEventListener('submit', handleSignUp);
+    const signUpForm = document.getElementById('signUpForm');
+    if (signUpForm) {
+        signUpForm.addEventListener('submit', handleSignUp);
+    }
 
     // Google Sign In
-    document.getElementById('googleSignInBtn').addEventListener('click', handleGoogleSignIn);
+    const googleBtn = document.getElementById('googleSignInBtn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', handleGoogleSignIn);
+    }
 
     // Sign Out
-    document.getElementById('signOutBtn').addEventListener('click', handleSignOut);
+    const signOutBtn = document.getElementById('signOutBtn');
+    if (signOutBtn) {
+        signOutBtn.addEventListener('click', handleSignOut);
+    }
 }
 
 function switchAuthTab(tab) {

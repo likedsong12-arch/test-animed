@@ -78,6 +78,9 @@ function initAuthListeners() {
     // Sign Up Form
     document.getElementById('signUpForm').addEventListener('submit', handleSignUp);
 
+    // Google Sign In
+    document.getElementById('googleSignInBtn').addEventListener('click', handleGoogleSignIn);
+
     // Sign Out
     document.getElementById('signOutBtn').addEventListener('click', handleSignOut);
 }
@@ -159,6 +162,16 @@ async function handleSignUp(e) {
     } catch (error) {
         errorEl.textContent = getAuthErrorMessage(error.code);
         errorEl.classList.remove('hidden');
+    }
+}
+
+async function handleGoogleSignIn() {
+    try {
+        await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
+        // onAuthStateChanged will handle the redirect
+    } catch (error) {
+        console.error('Google sign-in error:', error);
+        showToast('Google sign-in failed. Please try again.', 'error');
     }
 }
 
